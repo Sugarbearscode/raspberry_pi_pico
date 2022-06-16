@@ -1,0 +1,57 @@
+from machine import Pin, I2C
+from ssd1306 import SSD1306_I2C
+from machine import ADC, Pin
+import time
+
+adc = ADC(Pin(26))
+
+# Micropython + RASPBERRY PI PICO example of a potentiometer and a small oled display (128x32 using I2C) 
+# turn the pot and the display shows a meaningful value. 
+# in this example I chose to use it to display the midi channel number (needs code around it to output a midi message and the interface - work in progress). 
+# Micropython Raspberry PI PICO
+# Longer term I want to biuld a Midi controller so this is just my first initial attemtps at proving I can programme micropython and use an  
+# anologue inpit and output something as well. 
+# i used the PICO Omni Bus to do the testing, potentiometer from ebay along with the OLED. 
+
+i2c=I2C(0,sda=Pin(0), scl=Pin(1), freq=400000)
+# the display can handle 16x2 characters I think, a bigger display is needed I think to dispay more info. 
+oled = SSD1306_I2C(128, 32, i2c)
+
+oled.text("Midi Channel", 0, 0)
+oled.show()
+
+def midichannel(highval, divider, currentval):
+# this function takes a value from a potentiometer and then splits it. 
+# i.e. a pot can go from 0 (ish) to 65535 bit when you want to split those value into something more meaningful or relevent to your application
+# I used midi value (which might have been better served with button.. but it shows how it works 
+# This step is massivley over engineered and I could have done something similar using a simple divide
+# but it does work :) 
+
+    potval = currentval
+    if currentval == 0:
+       potvalue = 1
+    result = 0 
+
+    y = highval / divider  
+    x = y
+    midicounter = 0
+    startvalue = divider
+    while potval > y:
+       midicounter = midicounter+1
+       y=y+x
+           
+    result = midicounter
+    return result
+
+while True:
+    curval = adc.read_u16()
+    curmidi = midichannel(65535,16,curval)
+    print("Midi Channel ",str(curmidi))
+    outputstr = "Midi Channel " + str(curmidi)
+    print(str(curval))
+#   print(str(adc.read_u16()))
+    oled.fill(0)
+#   oled.text(str(adc.read_u16()), 0, 0)
+    oled.text(outputstr,0,0)
+    oled.show()
+    time.sleep(1)
