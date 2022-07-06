@@ -1,0 +1,29 @@
+import network
+import time
+import random
+
+# this is just a really simple access point for raspberry pico W 
+# I found that the SSID wasn't chaning unless i set ap.active(false) line
+# so I can now do silly things with the SSID and have funny messages 
+# appear on peoples wifi just by using the script
+cars = ["Donald Trump", "USmellBad", "FBI Van 3423" , "BorisJohnson", "Private Eye", "Mi6 Dectector Van", "TV Licensing Van"]
+
+
+picossid = cars[0]
+password = 'fluffybunny'
+ 
+ap = network.WLAN(network.AP_IF)
+
+number = 0
+while number < 10:    
+   randomssid = random.randint(0, 6)
+   picossid = cars[randomssid]
+   print(picossid)
+   print(randomssid)
+   ap.config(ssid=picossid)
+   ap.active(False)
+   time.sleep(1)
+   ap.active(True)
+   ap.config(essid=picossid, password=password)
+   time.sleep(20)
+   ap.active(False)
