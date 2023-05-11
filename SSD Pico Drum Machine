@@ -1,0 +1,46 @@
+from machine import Pin, I2C
+from ssd1306 import SSD1306_I2C
+
+i2c=I2C(1,sda=Pin(2), scl=Pin(3), freq=400000)
+oled = SSD1306_I2C(128, 64, i2c)
+
+oled.fill(0)
+#oled.text("00000000000000000x", 0, 0)
+#oled.text("00000000000000000", 0, 8)
+#oled.text("00000000000000000", 0, 16)
+
+#oled.pixel(30,30,0)
+
+#oled.rect(0, 0, 64, 32, 1)
+
+oled.rect(0, 0, 8, 8, 125)
+oled.rect(8, 0, 8 ,8, 125)
+oled.rect(16, 0, 8 ,8, 125)
+
+oled.show()
+oled.fill(0)
+tpos = 0
+y = 2
+z =0
+Track1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+oled.text("Bass Drum T1", 0, tpos)
+for x in Track1:
+   z = y + (x*7)
+   oled.rect(z, 9, 4, 5,1 )
+   
+oled.text("Snare Drum T2", 0, tpos+16)
+for x in Track1:
+   z = y + (x*7)
+   oled.rect(z, 25, 4, 5,1 )
+
+oled.text("HiHat Open T3", 0, tpos+32)
+for x in Track1:
+   z = y + (x*7)
+   oled.rect(z, 41, 4, 5,1 )
+
+oled.text("HiHat Closed T3", 0, tpos+48)
+for x in Track1:
+   z = y + (x*7)
+   oled.rect(z, 57, 4, 5,1 )
+
+oled.show()
