@@ -6,6 +6,11 @@
 // an online IDE. Should work ok on a raspberry pi 5 using the standard C compiler 
 // things to work out.. what is the equivilent of an int16_t in python (though I could use C). 
 
+// trying to find examples of how to mix two audio files in python
+// https://medium.com/@jatin.dhall7385/pythonic-wav-file-handling-a-guide-to-reading-wav-files-without-external-libraries-f5869b27b2e7 
+// https://stackoverflow.com/questions/4039158/mixing-two-audio-files-together-with-python
+// the most interesting one https://stackoverflow.com/questions/61499350/combine-audio-files-in-python which is pydub 
+
 #include <stdint.h>
 #include <stdio.h>
 #include <memory.h>
